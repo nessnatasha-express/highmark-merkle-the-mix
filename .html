@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Mix — Merkle + Highmark Onsite Playlist</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary-brand:#0328D1;
+    --primary-brand-hover:#1E56FA;
+    --primary-container:#E7EFFF;
+    --primary-on-brand:#FFFFFF;
+    --primary-on-container:#041753;
+    --secondary-brand:#2F98F7;
+    --secondary-container:#E3F0FF;
+    --secondary-on-container:#00203E;
+    --tertiary-brand:#6311CB;
+    --tertiary-brand-hover:#8044F1;
+    --tertiary-container:#EFECFF;
+    --tertiary-on-container:#240D4D;
+    --intent-success:#25DA53;
+    --intent-success-container:#DAF8DB;
+    --intent-on-success-container:#002807;
+    --intent-warning:#FFD38C;
+    --intent-warning-container:#F7EDDE;
+    --intent-on-warning-container:#2B1C03;
+    --on-surface:#1F1F1F;
+    --on-surface-subtle:#505050;
+    --on-surface-inverted:#F7F7F7;
+    --surface-body:#FCFCFC;
+    --surface:#FFFFFF;
+    --surface-container-low:#F7F7F7;
+    --surface-container-mid:#EEEEEE;
+    --border-subtle:#E4E4E4;
+    --border-medium:#D7D7D7;
+    --shadow-card:0 1px 2px rgba(31,31,31,0.06), 0 2px 8px rgba(31,31,31,0.08);
+    --shadow-hover:0 4px 10px rgba(31,31,31,0.10), 0 8px 24px rgba(31,31,31,0.12);
+    --radius-default:8px;
+    --radius-large:16px;
+    --radius-full:999px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Work Sans", sans-serif;
+    background:var(--surface-body);
+    color:var(--on-surface);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{max-width:1180px;margin:0 auto;padding:0 24px 80px;}
+
+  /* Hero */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg, var(--primary-brand) 0%, var(--tertiary-brand) 100%);
+    border-radius:0 0 var(--radius-large) var(--radius-large);
+    padding:56px 24px 40px;
+    margin-bottom:36px;
+    color:var(--on-surface-inverted);
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,255,255,0.16) 0, transparent 40%),
+      radial-gradient(circle at 85% 75%, rgba(255,255,255,0.14) 0, transparent 45%);
+    pointer-events:none;
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;position:relative;}
+  .cassette-wrap{
+    position:absolute;
+    top:0;
+    right:0;
+    width:150px;
+    height:150px;
+    overflow:hidden;
+  }
+  .cassette-icon{
+    position:absolute;
+    top:0;
+    right:0;
+    width:150px;
+    height:150px;
+    color:rgba(255,255,255,1);
+  }
+  .cassette-wrap::after{
+    content:"";
+    position:absolute;
+    top:-20%;
+    left:-60%;
+    width:40%;
+    height:140%;
+    background:linear-gradient(
+      100deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.55) 50%,
+      rgba(255,255,255,0) 100%
+    );
+    transform:rotate(8deg);
+    animation:cassette-shine 3.2s ease-in-out infinite;
+    animation-delay:0.6s;
+    pointer-events:none;
+  }
+  @keyframes cassette-shine{
+    0%{left:-60%;}
+    35%{left:120%;}
+    100%{left:120%;}
+  }
+  @media (max-width:640px){
+    .cassette-wrap{display:none;}
+  }
+  .eyebrow{
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    opacity:0.85;
+    margin:0 0 10px;
+  }
+  .hero h1{
+    font-size:52px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    line-height:1.05;
+    margin:0 0 12px;
+  }
+  .hero p.sub{
+    font-size:16px;
+    max-width:560px;
+    line-height:1.5;
+    margin:0;
+    opacity:0.9;
+  }
+  .hero .note{
+    margin-top:18px;
+    font-size:13px;
+    opacity:0.75;
+    max-width:640px;
+    line-height:1.5;
+  }
+
+  /* Spotlight row (Tastemaker / Pod / Giggles) */
+  .spotlight-row{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
+    margin-bottom:40px;
+  }
+  .spotlight{
+    border-radius:var(--radius-large);
+    padding:24px;
+    color:var(--on-surface-inverted);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    box-shadow:var(--shadow-card);
+    position:relative;
+    overflow:hidden;
+    opacity:0;
+    transform:translateY(14px);
+    animation:card-in 0.55s ease forwards;
+  }
+  .spotlight-1{animation-delay:0.05s;}
+  .spotlight-2{animation-delay:0.18s;}
+  .spotlight-3{animation-delay:0.31s;}
+  .spotlight::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 85% 15%, rgba(255,255,255,0.18) 0, transparent 45%);
+    pointer-events:none;
+  }
+  .spotlight-1{background:linear-gradient(135deg, var(--tertiary-brand) 0%, var(--primary-brand) 100%);}
+  .spotlight-2{background:linear-gradient(135deg, var(--secondary-brand) 0%, var(--tertiary-brand) 100%);}
+  .spotlight-3{background:linear-gradient(135deg, var(--primary-brand) 0%, var(--secondary-brand) 100%);}
+  .spotlight-badge{
+    width:44px;height:44px;
+    border-radius:var(--radius-full);
+    background:rgba(255,255,255,0.18);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    position:relative;
+  }
+  .spotlight-badge svg{width:22px;height:22px;color:#fff;}
+  .spotlight .eyebrow{margin:0 0 2px;position:relative;}
+  .spotlight h2{font-size:20px;font-weight:700;margin:0 0 2px;line-height:1.25;position:relative;}
+  .spotlight p.sub-line{margin:0;font-size:12.5px;opacity:0.85;line-height:1.4;position:relative;}
+  .spotlight-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;position:relative;}
+
+  @media (max-width:860px){
+    .spotlight-row{grid-template-columns:1fr;}
+  }
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:10px 16px;
+    border-radius:var(--radius-default);
+    font-size:13px;
+    font-weight:600;
+    text-decoration:none;
+    border:1px solid transparent;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+    white-space:nowrap;
+  }
+  .btn svg{width:14px;height:14px;}
+  .btn-inverse{background:#fff;color:var(--primary-brand);}
+  .btn-inverse:hover{background:var(--primary-container);}
+  .btn-ghost-inverse{background:rgba(255,255,255,0.14);color:#fff;border-color:rgba(255,255,255,0.4);}
+  .btn-ghost-inverse:hover{background:rgba(255,255,255,0.24);}
+  .btn-tonal{background:var(--surface-container-mid);color:var(--on-surface);}
+  .btn-tonal:hover{background:var(--border-medium);}
+
+  /* Filters */
+  .filters{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:rgba(252,252,252,0.92);
+    backdrop-filter:blur(8px);
+    padding:14px 0 18px;
+    margin-bottom:8px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 16px;
+    border-radius:var(--radius-full);
+    border:1px solid var(--border-medium);
+    background:var(--surface);
+    color:var(--on-surface-subtle);
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .15s ease;
+    user-select:none;
+  }
+  .chip svg{width:15px;height:15px;}
+  .chip:hover{border-color:var(--border-heavy, #C7C7C7);}
+  .chip.active{
+    background:var(--on-surface);
+    color:var(--on-surface-inverted);
+    border-color:var(--on-surface);
+  }
+  .chip .count{
+    font-size:11px;
+    opacity:0.7;
+    font-weight:500;
+  }
+
+  .section-label{
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--on-surface-subtle);
+    margin:28px 0 14px;
+  }
+
+  /* Grid */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    gap:16px;
+  }
+
+  .card{
+    background:var(--surface);
+    border-radius:var(--radius-default);
+    padding:20px;
+    box-shadow:var(--shadow-card);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    transition:transform .15s ease, box-shadow .15s ease;
+    opacity:0;
+    transform:translateY(14px);
+    animation:card-in 0.5s ease forwards;
+  }
+  @keyframes card-in{
+    to{opacity:1; transform:translateY(0);}
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+  .card.hidden{display:none;}
+
+  .tag{
+    display:inline-flex;align-items:center;gap:6px;
+    align-self:flex-start;
+    padding:5px 10px 5px 8px;
+    border-radius:var(--radius-full);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .tag svg{width:13px;height:13px;}
+
+  .tag-book{background:var(--primary-container);color:var(--primary-on-container);}
+  .tag-show{background:var(--tertiary-container);color:var(--tertiary-on-container);}
+  .tag-podcast{background:var(--secondary-container);color:var(--secondary-on-container);}
+  .tag-game{background:var(--intent-success-container);color:var(--intent-on-success-container);}
+  .tag-music{background:var(--intent-warning-container);color:var(--intent-on-warning-container);}
+
+  .card h3{margin:0;font-size:17px;font-weight:700;line-height:1.3;}
+  .card .rec-name{
+    font-size:12px;
+    font-weight:600;
+    color:var(--on-surface-subtle);
+    margin:6px 0 0;
+  }
+  .card .desc{
+    font-size:13px;
+    color:var(--on-surface-subtle);
+    line-height:1.45;
+    margin:0;
+    flex-grow:1;
+  }
+  .card .links{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;}
+  .link-btn{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:7px 12px;
+    border-radius:var(--radius-default);
+    border:1px solid var(--border-medium);
+    background:var(--surface-container-low);
+    color:var(--on-surface);
+    font-size:12px;
+    font-weight:600;
+    text-decoration:none;
+    transition:background .12s ease, border-color .12s ease;
+  }
+  .link-btn:hover{background:var(--surface-container-mid);border-color:var(--border-heavy,#C7C7C7);}
+  .link-btn svg{width:12px;height:12px;}
+
+  .empty-state{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--on-surface-subtle);
+    font-size:14px;
+  }
+
+  .footer-note{
+    margin-top:48px;
+    padding-top:20px;
+    border-top:1px solid var(--border-subtle);
+    font-size:12px;
+    color:var(--on-surface-subtle);
+    line-height:1.6;
+  }
+
+  @media (max-width:640px){
+    .hero h1{font-size:36px;}
+    .tastemaker{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="cassette-wrap">
+      <svg class="cassette-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="10" width="60" height="42" rx="6" fill="currentColor" fill-opacity="0.16"/>
+        <rect x="2" y="10" width="60" height="42" rx="6" stroke="currentColor" stroke-width="2"/>
+        <rect x="10" y="18" width="44" height="16" rx="2" fill="currentColor" fill-opacity="0.14"/>
+        <rect x="10" y="18" width="44" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="22" cy="26" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="22" cy="26" r="2" fill="currentColor"/>
+        <circle cx="42" cy="26" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="42" cy="26" r="2" fill="currentColor"/>
+        <path d="M27 40h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <rect x="12" y="43" width="6" height="4" rx="1" fill="currentColor"/>
+        <rect x="46" y="43" width="6" height="4" rx="1" fill="currentColor"/>
+      </svg>
+    </div>
+    <p class="eyebrow">Merkle + Highmark · Onsite Playlist</p>
+    <h1>The Mix</h1>
+    <p class="sub">Everything the team is reading, watching, and listening to right now, straight from the onsite. Filter by type and dig in.</p>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="spotlight-row">
+
+    <div class="spotlight spotlight-1">
+      <div class="spotlight-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      </div>
+      <div>
+        <p class="eyebrow">Tastemaker of the Week</p>
+        <h2>Celine Dion</h2>
+        <p class="sub-line">Because every good mix needs a headliner.</p>
+      </div>
+      <div class="spotlight-links">
+        <a class="btn btn-inverse" href="https://open.spotify.com/search/Celine%20Dion" target="_blank" rel="noopener">Spotify</a>
+        <a class="btn btn-ghost-inverse" href="https://www.youtube.com/results?search_query=Celine+Dion" target="_blank" rel="noopener">YouTube</a>
+      </div>
+    </div>
+
+    <div class="spotlight spotlight-2">
+      <div class="spotlight-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M9 22h6"/></svg>
+      </div>
+      <div>
+        <p class="eyebrow">Pod of the Week</p>
+        <h2>Good Hang with Amy Poehler</h2>
+        <p class="sub-line">Featuring Keke Palmer and Paula Pell.</p>
+      </div>
+      <div class="spotlight-links">
+        <a class="btn btn-inverse" href="https://podcasts.apple.com/no/podcast/good-hang-with-amy-poehler/id1795483480" target="_blank" rel="noopener">Apple Podcasts</a>
+      </div>
+    </div>
+
+    <div class="spotlight spotlight-3">
+      <div class="spotlight-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+      </div>
+      <div>
+        <p class="eyebrow">Giggles of the Week</p>
+        <h2>Ziwe + Law Roach</h2>
+        <p class="sub-line">A pairing nobody asked for and everybody needed.</p>
+      </div>
+      <div class="spotlight-links">
+        <a class="btn btn-inverse" href="https://www.youtube.com/watch?v=BmMKr5YO0gE" target="_blank" rel="noopener">Watch on YouTube</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="filters" id="filters">
+    <div class="chip active" data-filter="all">
+      All <span class="count" id="count-all"></span>
+    </div>
+    <div class="chip" data-filter="book">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Books <span class="count" id="count-book"></span>
+    </div>
+    <div class="chip" data-filter="show">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+      Shows &amp; Movies <span class="count" id="count-show"></span>
+    </div>
+    <div class="chip" data-filter="podcast">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M9 22h6"/></svg>
+      Podcasts <span class="count" id="count-podcast"></span>
+    </div>
+    <div class="chip" data-filter="game">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="5"/><path d="M6 10v4M4 12h4M15.5 11.5h.01M18.5 13.5h.01"/></svg>
+      Games <span class="count" id="count-game"></span>
+    </div>
+    <div class="chip" data-filter="music">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      Music <span class="count" id="count-music"></span>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty-state" id="empty" style="display:none;">Nothing here yet. Try another filter.</div>
+
+  <div class="footer-note">
+    Book and Audible links open a search for the title, since exact edition and cover vary. Show and movie links open a JustWatch search showing where to stream. Podcast links open a search on Apple Podcasts and Spotify. Verify availability in your region before purchasing.
+  </div>
+
+</div>
+
+<script>
+const ICONS = {
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  show: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>',
+  podcast: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M9 22h6"/></svg>',
+  game: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="5"/><path d="M6 10v4M4 12h4M15.5 11.5h.01M18.5 13.5h.01"/></svg>',
+  music: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
+};
+const TAG_LABEL = {book:"Book", show:"Show / Movie", podcast:"Podcast", game:"Game", music:"Music"};
+
+function amz(t){return "https://www.amazon.com/s?k=" + encodeURIComponent(t + " book");}
+function audible(t){return "https://www.audible.com/search?keywords=" + encodeURIComponent(t);}
+function jw(t){return "https://www.justwatch.com/us/search?q=" + encodeURIComponent(t);}
+function applePod(t){return "https://podcasts.apple.com/us/search?term=" + encodeURIComponent(t);}
+function spotify(t){return "https://open.spotify.com/search/" + encodeURIComponent(t);}
+
+const items = [
+  {name:"Aisha", title:"Humans Need Not Apply", type:"book", desc:"About AI and automation.", links:[["Amazon",amz("Humans Need Not Apply")],["Audible",audible("Humans Need Not Apply")]]},
+  {name:"Evan", title:"Dream Machine", type:"book", desc:"How AI impacts creativity.", links:[["Amazon",amz("Dream Machine")],["Audible",audible("Dream Machine")]]},
+  {name:"Allison", title:"Project Hail Mary", type:"book", desc:"A stranded astronaut with no memory of his mission has to save humanity, and Earth, from extinction.", links:[["Amazon",amz("Project Hail Mary")],["Audible",audible("Project Hail Mary")]]},
+  {name:"Justin Schneider", title:"Whistler", type:"book", desc:"A tense thriller built around someone who refuses to stay quiet.", links:[["Amazon",amz("Whistler")],["Audible",audible("Whistler")]]},
+  {name:"Megan Guido", title:"Off Campus (series)", type:"book", desc:"A steamy, easy-to-binge college hockey romance series.", links:[["Amazon",amz("Off Campus series Elle Kennedy")],["Audible",audible("Off Campus series")]]},
+  {name:"Emily D.", title:"American Ninja Warrior", type:"show", desc:"Everyday athletes take on brutal obstacle courses for a shot at the title.", links:[["Where to stream",jw("American Ninja Warrior")]]},
+  {name:"Julia W.", title:"Amy Poehler's Podcast", type:"podcast", desc:"Amy Poehler and friends talk through what makes someone a genuinely good hang.", links:[["Apple Podcasts",applePod("Amy Poehler podcast")],["Spotify",spotify("Amy Poehler podcast")]]},
+  {name:"Allan", title:"Demon Slayer (Anime)", type:"show", desc:"A gorgeously animated demon-slaying saga, best watched with his daughter.", links:[["Where to stream",jw("Demon Slayer")]]},
+  {name:"Julia Martin", title:"Crescent City", type:"book", desc:"A fantasy series blending gods, demons, and a very modern city.", links:[["Amazon",amz("Crescent City Sarah J Maas")],["Audible",audible("Crescent City")]]},
+  {name:"Abishek", title:"Incorruptible", type:"book", desc:"How companies start with a noble purpose, and how to protect it.", links:[["Amazon",amz("Incorruptible book")],["Audible",audible("Incorruptible")]]},
+  {name:"Ilona", title:"Healing Your Body (any recommendation)", type:"book", desc:"Open to anything in the healing / wellness space.", links:[["Browse on Amazon",amz("healing your body wellness")]]},
+  {name:"Amy Spears", title:"Lioness", type:"show", desc:"A CIA operative goes deep undercover in a high-stakes spy thriller.", links:[["Where to stream",jw("Lioness")]]},
+  {name:"Amy Spears", title:"The 6 Types of Working Genius", type:"book", desc:"A framework for figuring out which parts of work energize you and which drain you.", links:[["Amazon",amz("The 6 Types of Working Genius")],["Audible",audible("The 6 Types of Working Genius")]]},
+  {name:"Maddison", title:"Shrinking", type:"show", desc:"A grieving therapist starts breaking his own rules with patients, with messy, funny results.", links:[["Where to stream",jw("Shrinking")]]},
+  {name:"Nicole", title:"Murdle", type:"game", desc:"A daily murder-mystery logic puzzle for people who like clues more than words.", links:[["Play","https://murdle.com"]]},
+  {name:"Will", title:"Four Seasons", type:"show", desc:"Four couples, four vacations, and decades of friendship put to the test.", links:[["Where to stream",jw("The Four Seasons Netflix")]]},
+  {name:"Brian Miller", title:"Marvel Cinematic Universe / Avengers", type:"show", desc:"The full superhero saga, one movie marathon at a time.", links:[["Where to stream",jw("Avengers Marvel Cinematic Universe")]]},
+  {name:"Jason", title:"Four Seasons & Widow's Bay", type:"show", desc:"A vacation dramedy and a moody crime mystery, back to back.", links:[["Four Seasons",jw("The Four Seasons Netflix")],["Widow's Bay",jw("Widow's Bay")]]},
+  {name:"Emily", title:"Ted Lasso, Preacher & Baseball", type:"show", desc:"An underdog soccer comedy, a supernatural western, and America's pastime, all in one queue.", links:[["Ted Lasso",jw("Ted Lasso")],["Preacher",jw("Preacher")],["Baseball",jw("Baseball documentary Ken Burns")]]},
+  {name:"Emily", title:"Project Hail Mary", type:"book", desc:"A stranded astronaut with no memory of his mission has to save humanity, and Earth, from extinction.", links:[["Amazon",amz("Project Hail Mary")],["Audible",audible("Project Hail Mary")]]},
+  {name:"Anne Marie", title:"Gastropod", type:"podcast", desc:"A podcast that looks at food through the lens of science and history.", links:[["Apple Podcasts",applePod("Gastropod podcast")],["Spotify",spotify("Gastropod podcast")]]},
+  {name:"Natasha Ness", title:"Deli Boys", type:"show", desc:"Two spoiled brothers inherit their dad's business, which turns out to be a front for something bigger.", links:[["Where to stream",jw("Deli Boys")]]},
+  {name:"Natasha Ness", title:"Savage Lands", type:"book", desc:"A gripping story of grit, survival, and family secrets.", links:[["Amazon","https://www.amazon.com/Savage-Lands-Book-ebook/dp/B0FLRVNNVX/"],["Audible","https://www.audible.com/series/Savage-Lands-Audiobooks/B095NS9WFP?srsltid=AfmBOorxjEZz60eyVAGaAz1AnvycSmDNZoFj2cRtifr7_RzogX2YSgeK"]]}
+];
+
+const grid = document.getElementById('grid');
+const empty = document.getElementById('empty');
+
+function linkIcon(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></svg>';
+}
+
+function render(){
+  grid.innerHTML = items.map((item, i) => {
+    const linksHtml = item.links.map(([label, url]) => url ? `<a class="link-btn" href="${url}" target="_blank" rel="noopener">${linkIcon()}${label}</a>` : '').join('');
+    return `
+    <div class="card" data-type="${item.type}" style="animation-delay:${Math.min(i * 45, 500)}ms;">
+      <span class="tag tag-${item.type}">${ICONS[item.type]}${TAG_LABEL[item.type]}</span>
+      <div>
+        <h3>${item.title}</h3>
+        <p class="rec-name">Recommended by ${item.name}</p>
+      </div>
+      ${item.desc ? `<p class="desc">${item.desc}</p>` : ''}
+      <div class="links">${linksHtml}</div>
+    </div>`;
+  }).join('');
+
+  const counts = {all: items.length};
+  items.forEach(i => counts[i.type] = (counts[i.type]||0) + 1);
+  Object.keys(counts).forEach(k => {
+    const el = document.getElementById('count-' + k);
+    if (el) el.textContent = '(' + counts[k] + ')';
+  });
+}
+
+document.getElementById('filters').addEventListener('click', (e) => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  const filter = chip.dataset.filter;
+  let visibleCount = 0;
+  document.querySelectorAll('.card').forEach(card => {
+    const match = filter === 'all' || card.dataset.type === filter;
+    card.classList.toggle('hidden', !match);
+    if (match) visibleCount++;
+  });
+  empty.style.display = visibleCount === 0 ? 'block' : 'none';
+});
+
+render();
+</script>
+
+</body>
+</html>
